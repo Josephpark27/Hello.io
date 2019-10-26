@@ -17,8 +17,8 @@ var newSchema = new Schema({
             required: true
         }
     },
-    'createdAt': { type: Date, default: Date.now },
     'startsAt': { type: Date, default: Date.now },
+    'createdAt': { type: Date, default: Date.now },
     'updatedAt': { type: Date, default: Date.now }
 });
 
