@@ -8,8 +8,22 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Button
+  Button,
 } from 'react-native';
+import MapView from 'react-native-maps';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  mapStyle: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  },
+});
 
 export default class HomeScreen extends Component {
   constructor(props) {
@@ -24,38 +38,11 @@ export default class HomeScreen extends Component {
     this.props.navigation.navigate('SignUp');
   }
 
-
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Map</Text>
+        <MapView style={styles.mapStyle} />
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    opacity: 1
-  },
-  text: {
-    color: "#121212",
-    fontSize: 70,
-    fontFamily: "roboto-regular",
-    marginTop: 142,
-    alignSelf: "center"
-  },
-  logInButton: {
-    width: 118,
-    height: 56,
-    marginTop: 166,
-    alignSelf: "center"
-  },
-  signUpButton: {
-    width: 118,
-    height: 56,
-    marginTop: 30,
-    alignSelf: "center"
-  }
-});
