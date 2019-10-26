@@ -1,0 +1,49 @@
+const express = require('express');
+const router = express.Router();
+
+const Boss = require('../models/Boss');
+
+/* POST to create a new user */
+router.post('/signup', function(req, res, next) {
+    newUser = new User();
+    if (req.query.username && req.query.lat && req.query.lng) {
+        location = {
+            type: 'Point',
+            coordinates: [req.query.lng, req.query.lat]
+        }
+        newUser.username = req.query.username;
+        newUser.location = location;
+        newUser.save().then(succ => {
+            res.sendStatus(200);
+
+        }).catch(err => {
+            res.send(err);
+        });
+    } else {
+        res.sendStatus(500);
+    }
+});
+
+/* POST to create a new user */
+router.get('/near', function(req, res, next) {
+    if (req.query.lat && req.query.lng) {
+        User.find({
+                location: {
+                    $geoWithin: {
+                        $center: [
+                            [req.query.lat, req.query.lng], req.query.distance
+                        ]
+                    }
+                }
+            }).then(succ => {
+                res.send(succ);
+            })
+            .catch(err => {
+                res.send(err);
+            });
+    } else {
+        res.sendStatus(500);
+    }
+});
+
+module.exports = router;
