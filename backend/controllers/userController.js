@@ -31,7 +31,7 @@ router.post('/login', function(req, res, next) {
         res.send(succ);
     }).catch(err => {
         console.log(err);
-        res.send('Error user: ' + req.query.username + ' could not be found.');
+        res.send(500);
     });
 
 });
