@@ -4,24 +4,11 @@ const router = express.Router();
 const Boss = require('../models/Boss');
 
 /* POST to create a new user */
-router.post('/signup', function(req, res, next) {
-    newUser = new User();
-    if (req.query.username && req.query.lat && req.query.lng) {
-        location = {
-            type: 'Point',
-            coordinates: [req.query.lng, req.query.lat]
-        }
-        newUser.username = req.query.username;
-        newUser.location = location;
-        newUser.save().then(succ => {
-            res.sendStatus(200);
-
-        }).catch(err => {
-            res.send(err);
-        });
-    } else {
-        res.sendStatus(500);
-    }
+router.get('/bosses', function(req, res, next) {
+  Boss.find({}, (err, docs) => {
+    if(err) next(err);
+    res.send(docs);
+  })
 });
 
 /* POST to create a new user */
