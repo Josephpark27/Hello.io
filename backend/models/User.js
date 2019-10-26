@@ -39,6 +39,4 @@ newSchema.pre('findOneAndUpdate', function() {
     this.update({}, { $set: { updatedAt: Date.now() } });
 });
 
-
-
 module.exports = mongoose.model('User', newSchema);

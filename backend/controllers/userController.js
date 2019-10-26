@@ -3,6 +3,19 @@ var User = require('../models/User');
 var express = require('express');
 var router = express.Router();
 
+var meterConversion = (function() {
+    var mToKm = function(distance) {
+        return parseFloat(distance / 1000);
+    };
+    var kmToM = function(distance) {
+        return parseFloat(distance * 1000);
+    };
+    return {
+        mToKm: mToKm,
+        kmToM: kmToM
+    };
+})();
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
     User.find({}).then(succ => {
@@ -29,7 +42,7 @@ router.post('/signup', function(req, res, next) {
     if (req.query.username && req.query.lat && req.query.lng) {
         location = {
             type: 'Point',
-            coordinates: [req.query.lat, req.query.lng]
+            coordinates: [req.query.lng, req.query.lat]
         }
         newUser.username = req.query.username;
         newUser.location = location;
@@ -39,6 +52,28 @@ router.post('/signup', function(req, res, next) {
         }).catch(err => {
             res.send(err);
         });
+    } else {
+        res.sendStatus(500);
+    }
+});
+
+/* POST to create a new user */
+router.get('/near', function(req, res, next) {
+    if (req.query.lat && req.query.lng) {
+        User.find({
+                location: {
+                    $geoWithin: {
+                        $center: [
+                            [req.query.lat, req.query.lng], req.query.distance
+                        ]
+                    }
+                }
+            }).then(succ => {
+                res.send(succ);
+            })
+            .catch(err => {
+                res.send(err);
+            });
     } else {
         res.sendStatus(500);
     }
