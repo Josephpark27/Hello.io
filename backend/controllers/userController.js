@@ -1,7 +1,7 @@
-var User = require('../models/User');
+const express = require('express');
+const router = express.Router();
 
-var express = require('express');
-var router = express.Router();
+const User = require('../models/User');
 
 var meterConversion = (function() {
     var mToKm = function(distance) {
