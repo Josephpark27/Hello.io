@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { LinearGradient } from 'expo'
+import { LinearGradient } from 'expo-linear-gradient';
 import {
   Image,
   Platform,
@@ -26,21 +26,25 @@ export default class HomeScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.text}>Title</Text>
-        <View style={styles.logInButton}>
-          <Button
-            onPress={this.logIn.bind(this)}
-            title="Log In"
-          />
+      <LinearGradient
+        colors={['#B24592', '#F15F79']}
+        style={styles.container}>
+        <View>
+          <Text style={styles.text}>Title</Text>
+          <View style={styles.button}>
+            <Button
+              onPress={this.logIn.bind(this)}
+              title="Log In"
+            />
+          </View>
+          <View style={styles.button}>
+            <Button
+              onPress={this.signUp.bind(this)}
+              title="Sign Up"
+            />
+          </View>
         </View>
-        <View style={styles.signUpButton}>
-          <Button
-            onPress={this.signUp.bind(this)}
-            title="Sign Up"
-          />
-        </View>
-      </View>
+      </LinearGradient>
     );
   }
 }
@@ -57,16 +61,11 @@ const styles = StyleSheet.create({
     marginTop: 142,
     alignSelf: "center"
   },
-  logInButton: {
-    width: 118,
+  button: {
+    width: 218,
     height: 56,
-    marginTop: 166,
-    alignSelf: "center"
-  },
-  signUpButton: {
-    width: 118,
-    height: 56,
-    marginTop: 30,
+    backgroundColor: "rgba(0,0,0,0)",
+    borderWidth: 1,
     alignSelf: "center"
   }
 });

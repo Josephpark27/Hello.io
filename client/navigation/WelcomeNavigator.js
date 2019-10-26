@@ -12,7 +12,10 @@ export default createAppContainer(
         // Read more at https://reactnavigation.org/docs/en/auth-flow.html
         Main: {
             screen: HomeScreen,
-            title: "Welcome"
+            title: "Welcome",
+            navigationOptions: {
+                header: null,
+            }
         },
         LogIn: {
             screen: LogInScreen,
