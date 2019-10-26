@@ -4,7 +4,8 @@ import {
   Text,
   View,
   Button,
-  TextInput
+  TextInput,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 export default class SignUp extends Component {
@@ -18,9 +19,29 @@ export default class SignUp extends Component {
       this.props.navigation.navigate('Menu');
   }
 
+  backToMainMenu() {
+    console.log("back")
+    this.props.navigation.goBack();
+    console.log(this.props.navigation)
+  }
+
+  registerUser() {
+    lat = 12
+    lng = 12
+    username = this.state.text
+    fetch("http://35.184.227.201/users/signup?lat="+lat+"&lng="+lng+"&username="+username,{
+      method: "POST"
+    }).then(x => {
+      console.log(x);
+    }).catch(err => {
+      alert("Error")
+      console.log(err);
+    })
+  }
+
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="position" enabled>
           <Text style={styles.signUpText}>Sign Up</Text>
           <View style={styles.textInputView}>
             <Text style={styles.nameText}>Username</Text>
@@ -33,11 +54,11 @@ export default class SignUp extends Component {
           </View>
           <View style={styles.logInButton}>
             <Button
-              onPress={this.logIn.bind(this)}
+              onPress={this.registerUser.bind(this)}
               title="Sign Up"
             />
           </View>
-        </View>
+        </KeyboardAvoidingView>
     );
   }
 }
@@ -46,7 +67,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "rgba(249,249,249,1)",
-    opacity: 1
+    opacity: 1,
+    paddingTop:50,
+    paddingLeft:25,
   },
   signUpText: {
     color: "#121212",

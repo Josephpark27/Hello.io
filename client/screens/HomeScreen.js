@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
 import {
   Image,
   Platform,
@@ -11,7 +12,7 @@ import {
 } from 'react-native';
 
 export default class HomeScreen extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
   }
 
@@ -20,26 +21,30 @@ export default class HomeScreen extends Component {
   }
 
   signUp() {
-      this.props.navigation.navigate('SignUp');
+    this.props.navigation.navigate('SignUp');
   }
 
   render() {
     return (
-      <View style={styles.container}>
+      <LinearGradient
+        colors={['#B24592', '#F15F79']}
+        style={styles.container}>
+        <View>
           <Text style={styles.text}>Title</Text>
-          <View style={styles.logInButton}>
+          <View style={styles.button}>
             <Button
-                onPress={this.logIn.bind(this)}
-                title="Log In"
+              onPress={this.logIn.bind(this)}
+              title="Log In"
             />
           </View>
-          <View style={styles.signUpButton}>
+          <View style={styles.button}>
             <Button
               onPress={this.signUp.bind(this)}
               title="Sign Up"
             />
           </View>
         </View>
+      </LinearGradient>
     );
   }
 }
@@ -47,7 +52,6 @@ export default class HomeScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgba(249,249,249,1)",
     opacity: 1
   },
   text: {
@@ -57,16 +61,11 @@ const styles = StyleSheet.create({
     marginTop: 142,
     alignSelf: "center"
   },
-  logInButton: {
-    width: 118,
+  button: {
+    width: 218,
     height: 56,
-    marginTop: 166,
-    alignSelf: "center"
-  },
-  signUpButton: {
-    width: 118,
-    height: 56,
-    marginTop: 30,
+    backgroundColor: "rgba(0,0,0,0)",
+    borderWidth: 1,
     alignSelf: "center"
   }
 });

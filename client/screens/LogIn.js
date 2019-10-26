@@ -1,43 +1,57 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   Button,
-  TextInput
+  TextInput,
+  KeyboardAvoidingView,
 } from 'react-native';
 
-export default class SignUp extends Component {
+export default class LogIn extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {text: ''};
+    this.state = { text: '' };
   }
 
   menu() {
-      this.props.navigation.navigate('Menu');
+    this.props.navigation.navigate('Menu');
+  }
+
+  logIn() {
+    username = this.state.text
+    fetch("http://35.184.227.201/users/login?username="+username,{
+      method: "POST"
+    }).then(x => {
+      console.log(x);
+      this.props.navigation.navigate("Tabs")
+    }).catch(err => {
+      alert("Error")
+      console.log(err);
+    })
   }
 
   render() {
     return (
-      <View style={styles.container}>
-          <Text style={styles.signUpText}>Log In</Text>
-          <View style={styles.textInputView}>
-            <Text style={styles.nameText}>Username</Text>
-            <TextInput
-              style={{height: 40, marginBottom: 10, borderBottomWidth: 1, borderBottomColor: "rgb(1,1,1)"}}
-              placeholder=""
-              onChangeText={(text) => this.setState({text})}
-              value={this.state.text}
-            />
-          </View>
-          <View style={styles.logInButton}>
-            <Button
-              onPress={this.menu.bind(this)}
-              title="Log In"
-            />
-          </View>
+      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+        <Text style={styles.signUpText}>Log In</Text>
+        <View style={styles.textInputView}>
+          <Text style={styles.nameText}>Username</Text>
+          <TextInput
+            style={{ height: 40, marginBottom: 10, borderBottomWidth: 1, borderBottomColor: "rgb(1,1,1)" }}
+            placeholder=""
+            onChangeText={(text) => this.setState({ text })}
+            value={this.state.text}
+          />
         </View>
+        <View style={styles.logInButton}>
+          <Button
+            onPress={this.logIn.bind(this)}
+            title="Log In"
+          />
+        </View>
+      </KeyboardAvoidingView>
     );
   }
 }

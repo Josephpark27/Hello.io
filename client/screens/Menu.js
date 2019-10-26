@@ -8,21 +8,34 @@ import {
   ToolbarAndroid
 } from 'react-native';
 
-export default class SignUp extends Component {
-
-  constructor(props) {
+export default class Menu extends Component {
+  constructor(props){
     super(props);
-    this.state = {text: ''};
   }
 
   render() {
-    return {
-      <ToolbarAndroid
-        logo={require('./app_logo.png')}
-        title="AwesomeApp"
-        actions={[{title: 'Settings', icon: require('./icon_settings.png'), show: 'always'}]}
-        onActionSelected={this.onActionSelected} />
-    }
+    return (
+      <View style={styles.container}>
+        <ToolbarAndroid 
+          title="Title"
+          actions={[{title: 'Settings', icon: require('../assets/images/icon_settings.png'), show: 'always'}]}
+          onActionSelected={this.onActionSelected} />
+        <Text style={styles.nameText}>Hello World</Text>
+      </View>
+    )
   }
 
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "rgba(249,249,249,1)",
+    opacity: 1
+  },
+  nameText: {
+    color: "rgb(1, 1, 1)",
+    fontFamily: "roboto-regular",
+  }
+});
+ 
