@@ -9,11 +9,12 @@ var debug = require('debug')('backend:server');
 var http = require('http');
 
 var socketHandler = require('../routes/websocket');
+const config = require('../config.json');
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || config.node_port || '3000');
 app.set('port', port);
 
 /**

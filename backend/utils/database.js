@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-
+const config = require('../config.json')
 // Should this eventually become a singleton class?
 
 //export this function and imported by server.js
 module.exports = (function(){
   try {
-    mongoose.connect('mongodb://localhost:27017/test', { 
+    mongoose.connect('mongodb://'+config.db_addr+':'+config.db_port+'/test', { 
       useNewUrlParser: true,
       useUnifiedTopology: true 
     });
