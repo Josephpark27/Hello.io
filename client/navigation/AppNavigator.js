@@ -5,6 +5,7 @@ import MainTabNavigator from './MainTabNavigator';
 import LogInScreen from '../screens/LogIn';
 import SignUpScreen from '../screens/SignUp';
 import HomeScreen from '../screens/HomeScreen';
+import MenuScreen from '../screens/Menu';
 
 export default createAppContainer(
   createSwitchNavigator({
@@ -14,6 +15,7 @@ export default createAppContainer(
     LogIn: LogInScreen,
     SignUp: SignUpScreen,
     Tabs: MainTabNavigator,
+    Menu: MenuScreen
 
   })
 );
