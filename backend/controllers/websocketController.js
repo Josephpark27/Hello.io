@@ -12,5 +12,5 @@ wss.on('connection', (a, b) => {
             console.log(x);
             x.send(m);
         })
-    })
-})
+    });
+});
