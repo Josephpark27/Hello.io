@@ -31,5 +31,9 @@
     "babel-preset-expo": "^7.0.0",
     "jest-expo": "^35.0.0"
   },
-  "private": true
+  "private": true,
+  "rnpm": {
+   "assets": ["./assets/fonts/roboto-regular.ttf"]
+  }
+
 }
