@@ -7,7 +7,6 @@ import {
   TextInput,
   KeyboardAvoidingView,
 } from 'react-native';
-import { Icon } from 'react-native-elements'
 
 export default class SignUp extends Component {
 
