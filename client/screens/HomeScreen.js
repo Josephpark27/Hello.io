@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { LinearGradient } from 'expo'
 import {
   Image,
   Platform,
@@ -11,7 +12,7 @@ import {
 } from 'react-native';
 
 export default class HomeScreen extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
   }
 
@@ -20,26 +21,26 @@ export default class HomeScreen extends Component {
   }
 
   signUp() {
-      this.props.navigation.navigate('SignUp');
+    this.props.navigation.navigate('SignUp');
   }
 
   render() {
     return (
       <View style={styles.container}>
-          <Text style={styles.text}>Title</Text>
-          <View style={styles.logInButton}>
-            <Button
-                onPress={this.logIn.bind(this)}
-                title="Log In"
-            />
-          </View>
-          <View style={styles.signUpButton}>
-            <Button
-              onPress={this.signUp.bind(this)}
-              title="Sign Up"
-            />
-          </View>
+        <Text style={styles.text}>Title</Text>
+        <View style={styles.logInButton}>
+          <Button
+            onPress={this.logIn.bind(this)}
+            title="Log In"
+          />
         </View>
+        <View style={styles.signUpButton}>
+          <Button
+            onPress={this.signUp.bind(this)}
+            title="Sign Up"
+          />
+        </View>
+      </View>
     );
   }
 }
@@ -47,7 +48,6 @@ export default class HomeScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgba(249,249,249,1)",
     opacity: 1
   },
   text: {
