@@ -5,10 +5,11 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    User.find({}, (err, doc) => {
-        if (err) return next(error);
-        else if (doc) res.send(doc);
-    });
+    User.find({}).then(succ => {
+        res.send(succ);
+    }).catch(err => {
+        res.send(err);
+    })
 });
 
 /* Login users listing. */
