@@ -1,6 +1,6 @@
 // MongoDB model that handles user connection and location services
 
-var mongoose = require('mongoose');
+var mongoose = require('../utils/database');
 var Schema = mongoose.Schema;
 // if (mongoose.connection.readyState === 0) {
 //   mongoose.connect(require('./connection-string'));
