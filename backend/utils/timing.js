@@ -1,22 +1,19 @@
 
-const Boss = require('../models/Boss');
-let i = 0, time = Date.now(), currentBoss;
-
-async function getNextBoss() {
-  let bosses = await Boss.find({}).sort('delay');
-  if(!bosses || i >= bosses.length) console.error("No document found");
-  i++;
-  return bosses[i];
-}
+const gameSessions = require('../controllers/gameSessions');
+const websocket = require('../routes/websocket');
+let time = Date.now(), currentBoss;
 
 (async function startGame() {
   try {
-    currentBoss = await getNextBoss();
+    // TODO: make it so that bosses are put into a priority LL, when they expire they leave
+    // TODO: fix this hacky await shit.
+    currentBoss = (await gameSessions).getBoss();
     time += currentBoss.delay;
-    console.log("Boss: ", currentBoss.name, time);
+    // websocket.subscribeToChannel(currentBoss.name);
+    console.log("Active Boss: ", currentBoss.name, Date.now() - time);
   
     let timer = setTimeout(function bossTime() {
-      console.log("Tic: ", Date.now() - time);
+      // console.log("Tic: ", Date.now() - time);
       if(Date.now() < time) timer = setTimeout(bossTime, 1000);
       else {
         startGame();
