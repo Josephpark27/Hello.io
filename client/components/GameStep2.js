@@ -48,15 +48,12 @@ const styles = StyleSheet.create({
 export default class GameStep2 extends React.Component {
   constructor(props){
     super(props);
-    this.state = {
-      
-    }
   }
   render() {
     return (
       <View>
         <TextInput style={styles.textInput} placeholder="Answer"></TextInput>
-        <Button title="Submit" onPress={props.onSubmit.bind(this, next_props)}></Button>
+        <Button title="Submit" onPress={this.props.onSubmit.bind(this)}></Button>
       </View>
     )
   }

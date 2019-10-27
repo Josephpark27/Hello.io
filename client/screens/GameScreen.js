@@ -14,7 +14,6 @@ import GameStep3 from '../components/GameStep3';
 export default class GameScreen extends Component {
     constructor(props) {
         super(props);
-        enabled = this.props.navigation.getParam("enabled")
         this.state = {
             enabled: true,
             step: 1

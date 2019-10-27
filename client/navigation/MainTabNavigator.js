@@ -8,12 +8,16 @@ import GameScreen from '../screens/GameScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
 const config = Platform.select({
-    web: { headerMode: 'screen' },
+    web: { headerMode: 'none' },
     default: {},
 });
 
 const MapStack = createStackNavigator({
-        Home: MapScreen,
+        Home: {
+            screen:MapScreen,
+            navigationOptions: {
+                header: null,
+            }},
     },
     config
 );

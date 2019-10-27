@@ -68,6 +68,8 @@ export default class HomeScreen extends Component {
     })
   }
 
+
+
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
@@ -78,7 +80,7 @@ export default class HomeScreen extends Component {
 
     let location = await Location.getCurrentPositionAsync({});
     region = this.getRegionForCoordinates(location.coords)
-    this.setState({ location:  region});
+    this.setState({ location: region });
   };
 
   logIn() {
@@ -97,8 +99,6 @@ export default class HomeScreen extends Component {
 
     const midX = (minX + maxX) / 2;
     const midY = (minY + maxY) / 2;
-    const deltaX = (maxX - minX);
-    const deltaY = (maxY - minY);
 
     return {
       latitude: midX,
@@ -110,15 +110,16 @@ export default class HomeScreen extends Component {
 
   startGame() {
     this.props.navigation.setParams({ enabled: true });
-    this.props.navigation.navigate("GameStack",{enabled:true})
+    this.props.navigation.navigate("GameStack", { enabled: true })
   }
 
   render() {
-    return (<View style={styles.container}>
+    return (
+    <View style={styles.container}>
       <MapView style={styles.mapStyle}
         region={this.state.location}>
         <Marker coordinate={this.state.location} onPress={this.startGame.bind(this)}>
-          <Image source={require('../assets/images/spyIcon.png')} style={{height: 35, width:35 }}/>
+          <Image source={require('../assets/images/spyIcon.png')} style={{ height: 35, width: 35 }} />
         </Marker>
       </MapView>
       <View>
