@@ -1,6 +1,6 @@
 
 const gameSessions = require('../controllers/gameSessions');
-const websocket = require('../routes/websocket');
+const { subscribeToChannel } = require('../routes/websocket');
 let time = Date.now(), currentBoss;
 
 (async function startGame() {
@@ -9,7 +9,7 @@ let time = Date.now(), currentBoss;
     // TODO: fix this hacky await shit.
     currentBoss = (await gameSessions).getBoss();
     time += currentBoss.delay;
-    // websocket.subscribeToChannel(currentBoss.name);
+    websocket.subscribeToChannel(currentBoss.name);
     console.log("Active Boss: ", currentBoss.name, Date.now() - time);
   
     let timer = setTimeout(function bossTime() {

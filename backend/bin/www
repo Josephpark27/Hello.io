@@ -21,7 +21,15 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+/**
+ * Web Socket Connection
+ */
+
+websocket.mainChannel(io);
 var io = require('socket.io')(server);
+var websocket = require('../routes/websocket');
+
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -29,11 +37,6 @@ var io = require('socket.io')(server);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
-
-/**
- * Web Socket Connection
- */
-require('../routes/websocket')(io);
 
 /**
  * Normalize a port into a number, string, or false.
