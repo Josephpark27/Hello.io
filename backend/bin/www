@@ -26,9 +26,9 @@ var server = http.createServer(app);
  * Web Socket Connection
  */
 
-websocket.mainChannel(io);
 var io = require('socket.io')(server);
 var websocket = require('../routes/websocket');
+websocket.mainChannel(io);
 
 /**
  * Listen on provided port, on all network interfaces.
