@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
 import {
   StyleSheet,
   Text,
@@ -7,6 +8,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
 } from 'react-native';
+import InvisButton from '../components/InvisButton';
 
 export default class LogIn extends Component {
 
@@ -20,8 +22,8 @@ export default class LogIn extends Component {
   }
 
   logIn() {
-    username = this.state.text
-    fetch("http://35.184.227.201/users/login?username="+username,{
+    username = this.state.text;
+    fetch("http://35.184.227.201/users/login?username=" + username, {
       method: "POST"
     }).then(x => {
       console.log(x);
@@ -34,24 +36,27 @@ export default class LogIn extends Component {
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-        <Text style={styles.signUpText}>Log In</Text>
-        <View style={styles.textInputView}>
-          <Text style={styles.nameText}>Username</Text>
-          <TextInput
-            style={{ height: 40, marginBottom: 10, borderBottomWidth: 1, borderBottomColor: "rgb(1,1,1)" }}
-            placeholder=""
-            onChangeText={(text) => this.setState({ text })}
-            value={this.state.text}
-          />
-        </View>
-        <View style={styles.logInButton}>
-          <Button
-            onPress={this.logIn.bind(this)}
-            title="Log In"
-          />
-        </View>
-      </KeyboardAvoidingView>
+      <LinearGradient
+        colors={['#B24592', '#F15F79']}
+        style={styles.container}>
+        <KeyboardAvoidingView behavior="position" enabled>
+          <Text style={styles.signUpText}>Log In</Text>
+          <View style={styles.textInputView}>
+            <TextInput
+              style={{ height: 40, marginBottom: 10, borderWidth:0, textAlign:'center', color:'white', fontSize:18 }}
+              placeholder="Username"
+              onChangeText={(text) => this.setState({ text })}
+              value={this.state.text}
+            />
+          </View>
+          <View style={styles.logInButton}>
+            <InvisButton
+              onPress={this.logIn.bind(this)}
+              title="Log In"
+            />
+          </View>
+        </KeyboardAvoidingView>
+      </LinearGradient>
     );
   }
 }
@@ -63,11 +68,12 @@ const styles = StyleSheet.create({
     opacity: 1
   },
   signUpText: {
-    color: "#121212",
-    fontSize: 55,
+    color: "white",
+    fontSize: 70,
     fontFamily: "roboto-regular",
-    marginTop: 130,
-    alignSelf: "center"
+    fontWeight: "400",
+    alignSelf: "center",
+    marginTop:50
   },
   nameText: {
     color: "rgb(1, 1, 1)",

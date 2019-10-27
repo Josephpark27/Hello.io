@@ -19,7 +19,7 @@ export default createAppContainer(
         },
         LogIn: {
             screen: LogInScreen,
-            title: "Log In"
+            title: "Log In",
         },
         SignUp: {
             screen: SignUpScreen,

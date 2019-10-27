@@ -40,6 +40,9 @@ export default class HomeScreen extends Component {
         longitudeDelta: 0.0421,
       },
       errorMessage: null,
+      bosses: null,
+      currentBossIndex: 0,
+      countdown: Date.now()
     };
   }
 
@@ -51,7 +54,21 @@ export default class HomeScreen extends Component {
     } else {
       this._getLocationAsync();
     }
+    fetch("http://localhost:3000/bosses/", {
+      method: "POST"
+    }).then(data => {
+      console.log(data);
+      this.setState({
+        bosses: data,
+        countdown: this.state.countdown + data[this.state.currentBossIndex].delay
+      });
+    }).catch(err => {
+      alert("Error")
+      console.log(err);
+    })
   }
+
+
 
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -62,10 +79,8 @@ export default class HomeScreen extends Component {
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    console.log("Region")
     region = this.getRegionForCoordinates(location.coords)
-    console.log(region)
-    this.setState({ location:  region});
+    this.setState({ location: region });
   };
 
   logIn() {
@@ -84,29 +99,34 @@ export default class HomeScreen extends Component {
 
     const midX = (minX + maxX) / 2;
     const midY = (minY + maxY) / 2;
-    const deltaX = (maxX - minX);
-    const deltaY = (maxY - minY);
 
     return {
       latitude: midX,
       longitude: midY,
-      latitudeDelta: deltaX,
-      longitudeDelta: deltaY
+      latitudeDelta: 0.005,
+      longitudeDelta: 0.005
     };
   }
 
+  startGame() {
+    this.props.navigation.setParams({ enabled: true });
+    this.props.navigation.navigate("GameStack", { enabled: true })
+  }
+
   render() {
-    console.log("this.state")
-    console.log(this.state)
-    return (<View style={styles.container} >
+    return (
+    <View style={styles.container}>
       <MapView style={styles.mapStyle}
-        region={this.state.location} >
-        <Marker coordinate={this.state.location} >
-          <View >
-            <Text> Me </Text>
-          </View>
+        region={this.state.location}>
+        <Marker coordinate={this.state.location} onPress={this.startGame.bind(this)}>
+          <Image source={require('../assets/images/spyIcon.png')} style={{ height: 35, width: 35 }} />
         </Marker>
       </MapView>
+      <View>
+        <Text>
+          {this.state.countdown}
+        </Text>
+      </View>
     </View>
     );
   }
