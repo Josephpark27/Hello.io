@@ -1,47 +1,120 @@
 const game = require('../controllers/game');
 const gameSession = require('../controllers/gameSessions');
+const User = require('../models/User');
 
-let clients = new Set([]);
-let questions = [];
-let io = null;
-
-module.exports.subscribeToChannel = (channel) => {
-
-}
-
-module.exports.subscribeToRoom = (channel) => {
-
-}
-
+const MIN_PLAYERS = 3;
 // We import io_instance so we can have multiple channels each for a different boss
-module.exports = (io) => io.sockets.on('connection', (socket) => {
-    this.io = io;
-    socket.on('leave', () => {
-        console.log("Left");
+module.exports = (function() {
+  let io, time, playerSockets = {}, nameSpaces = {}, timer;
+
+  /**
+   * PHASE 1
+   * @param {username, question, answer} data
+   * @param {string} channel
+  */
+  function handleJoin(data, channel, socket) {
+    if(game.getState().hasStarted) return console.log("Tried to start a running game");
+
+    let nsp = nameSpaces[channel];
+    game.addClient(data); // {username, question, answer}
+
+    // Listens on a private user room
+    nsp.emit('join', nsp.name + " has: " + Object.keys(game.getState().clients).length + "/" + MIN_PLAYERS + "players");
+    playerSockets[data.username] = socket;
+
+    // Check if it's time to start the game
+    if(Object.keys(game.getState().clients).length >= MIN_PLAYERS) {
+      nsp.emit('join', {message: "Game begins!"});  // Announces start
+      startGame(nsp);
+    }
+    console.log(game.getState()); //DEBUG
+  }
+
+  /**
+   * PHASE 2
+   * @param {Socket} nsp
+   */
+  function startGame(nsp) {
+    if(game.getState().hasStarted) return console.log("Tried to start a running game");
+    
+    let names = Object.keys(playerSockets); // Generate game pairs
+    names.forEach(name => {
+      let socket = playerSockets[name];
+      let question = game.getState().questions[name][0];
+      console.log("Sending to ", name, " the question: ", question);
+      socket.emit('join',{ question });
     })
+    time = Date.now();
+    console.log("Timer starting"); //DEBUG
 
-    socket.on('answer', (data) => {
-        const { username, answer, targetUser } = data;
-        if (questions[targetUser]) {
-            let result = isSimilar(answer, questions[targetUser][1]);
-            socket.emit('answer', { result });
-            // DEBUG
-            console.log(username, " is paired with: ", targetUser);
-            console.log(username, " answered ", answer, ", which is ", result);
-        } else {
-            socket.in(username).emit('answer', { error: "Error user has not answered question" });
+    // Begin countdown until game over
+    timer = setTimeout(function timeLoop() {
+      console.log("Time left: ", Date.now()-time);
+      console.log(Date.now());
+      console.log(time);
+      if(Date.now() - time > 60000) {
+        clearTimeout(timer);
+        nsp.emit('answer', {message: "Game ending"});
+        endGame();
+      } else {
+        timer = setTimeout(timeLoop, 1000);
+      }
+    }, 1000);
+  }
+
+  /**
+   * PHASE 3
+   * @param {username, targetuser, answer} data 
+   * @param {string} channel 
+   */
+  function handleAnswer(data) {
+    try {
+      let socket = playerSockets[data.username];
+      // Check result of answer
+      let result = game.submit(data);
+      socket.emit('answer', {result});
+    } catch(err) {
+      console.error(err);
+    }
+  }
+
+  /**
+   * PHASE 4
+   * @param {Socket} socket 
+   */
+  async function endGame() {
+    try {
+      let results = game.end();
+      let names = Object.values(results);
+      names.forEach(async name => {
+        let userDoc = await User.findOne({username: name}),
+            socket = playerSockets[name];
+        if(userDoc){
+          let rank = await userDoc.rank + results[name];
+          userDoc.rank = rank;
+          userDoc.save();
+          socket.emit('answer', {rank});
         }
-    });
+      });
+    } catch(error) {
+      console.error(err);
+    }
 
-    socket.on('party', (data) => {
-        const { username, question, answer } = data;
-        // DEBUG
-        console.log(username, " has joined the party");
-        console.log("Question: " + question);
-        console.log("Answer: " + answer);
-        socket.join(username); // Joins that user's room.
-        clients.add(username);
-        questions[username] = [question, answer];
-        socket.emit('clients', Array.from(clients));
-    });
-});
+  }
+
+  return {
+    mainChannel: (io_instance) => {
+        io = io_instance;
+    },
+    subscribeToChannel: channel => {
+      const nsp = io.of('/'+channel).on('connection', socket => {
+        nameSpaces[channel] = nsp;
+        // Joining the party and introducing therselves
+        socket.on('join', data => handleJoin(data, channel, socket));
+        // Handle when a user submits an answer
+        socket.on('answer', data => handleAnswer(data, channel))
+      });
+    }
+  }
+})();
+
