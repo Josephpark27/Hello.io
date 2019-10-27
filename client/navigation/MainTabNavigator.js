@@ -40,7 +40,11 @@ MapStack.navigationOptions = {
 MapStack.path = '';
 
 const GameStack = createStackNavigator({
-        Games: GameScreen,
+        Games: {screen:GameScreen,
+            navigationOptions: {
+                header: null,
+            }
+        },
     },
     config
 );
