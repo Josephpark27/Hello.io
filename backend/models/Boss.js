@@ -17,7 +17,7 @@ var newSchema = new Schema({
             required: true
         }
     },
-    'startsAt': { type: Date, default: Date.now },
+    'delay': { type: Number },                     // Number of ms since server started
     'createdAt': { type: Date, default: Date.now },
     'updatedAt': { type: Date, default: Date.now }
 });
