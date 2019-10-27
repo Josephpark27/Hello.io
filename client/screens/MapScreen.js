@@ -108,11 +108,16 @@ export default class HomeScreen extends Component {
     };
   }
 
+  startGame() {
+    this.props.navigation.setParams({ enabled: true });
+    this.props.navigation.navigate("GameStack",{enabled:true})
+  }
+
   render() {
     return (<View style={styles.container}>
       <MapView style={styles.mapStyle}
         region={this.state.location}>
-        <Marker coordinate={this.state.location}>
+        <Marker coordinate={this.state.location} onPress={this.startGame.bind(this)}>
           <Image source={require('../assets/images/spyIcon.png')} style={{height: 35, width:35 }}/>
         </Marker>
       </MapView>

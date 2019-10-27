@@ -8,75 +8,74 @@ import GameScreen from '../screens/GameScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
 const config = Platform.select({
-  web: { headerMode: 'screen' },
-  default: {},
+    web: { headerMode: 'screen' },
+    default: {},
 });
 
-const MapStack = createStackNavigator(
-  {
-    Home: MapScreen,
-  },
-  config
+const MapStack = createStackNavigator({
+        Home: MapScreen,
+    },
+    config
 );
 
 MapStack.navigationOptions = {
-  tabBarLabel: 'Map',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-map${focused ? '' : '-outline'}`
-          : 'md-map'
-      }
-    />
-  ),
-  params: {
-    test:"Hello World"
-  }
+    tabBarLabel: 'Map',
+    tabBarIcon: ({ focused }) => ( <
+        TabBarIcon focused = { focused }
+        name = {
+            Platform.OS === 'ios' ?
+            `ios-map${focused ? '' : '-outline'}` : 'md-map'
+        }
+        />
+    ),
+    params: {
+        test: "Hello World"
+    }
 };
 
 MapStack.path = '';
 
-const GameStack = createStackNavigator(
-  {
-    Games: GameScreen,
-  },
-  config
+const GameStack = createStackNavigator({
+        Games: GameScreen,
+    },
+    config
 );
 
 GameStack.navigationOptions = {
-  tabBarLabel: 'Game',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
-  ),
-  params: {
-    test:"Hello World"
-  }
+    tabBarLabel: 'Game',
+    tabBarIcon: ({ focused }) => ( <
+        TabBarIcon focused = { focused }
+        name = { Platform.OS === 'ios' ? 'ios-play' : 'md-play' }
+        />
+    ),
+    screenProps: {
+        test: "Hello World"
+    }
 };
 
 GameStack.path = '';
 
-const SettingsStack = createStackNavigator(
-  {
-    Settings: SettingsScreen,
-  },
-  config
+const SettingsStack = createStackNavigator({
+        Settings: SettingsScreen,
+    },
+    config
 );
 
 SettingsStack.navigationOptions = {
-  tabBarLabel: 'Profile',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
-  ),
+    tabBarLabel: 'Profile',
+    tabBarIcon: ({ focused }) => ( <
+        TabBarIcon focused = { focused }
+        name = { Platform.OS === 'ios' ? 'ios-options' : 'md-options' }
+        />
+    ),
 };
 
 SettingsStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
-  MapStack,
-  GameStack,
-  SettingsStack,
+    MapStack,
+    GameStack,
+    SettingsStack,
 });
 
 tabNavigator.path = '';

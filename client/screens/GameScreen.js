@@ -8,35 +8,49 @@ import {
     Dimensions,
 } from 'react-native';
 import GameStep1 from '../components/GameStep1';
+import GameStep2 from '../components/GameStep2';
+import GameStep3 from '../components/GameStep3';
 
 export default class GameScreen extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
+        enabled = this.props.navigation.getParam("enabled")
         this.state = {
-            enabled: false,
+            enabled: true,
             step: 1
         }
+    }
+
+    nextStep() {
+        this.setState({
+            step: this.state.step + 1
+        })
+    }
+
+    disable() {
+        this.setState({
+            enabled: false
+        })
     }
 
     render() {
         return (
             <View style={styles.container}>
-                {
-                    this.state.step === 1 &&
-                    <GameStep1></GameStep1>
-                }
-                {
-                    this.state.step === 2 &&
-                    <GameStep2></GameStep2>
+                <View style={styles.gameStepContainer}>
+                    {
+                        this.state.step === 1 && this.state.enabled &&
+                        <GameStep1 onSubmit={this.nextStep.bind(this)}></GameStep1>
+                    }
+                    {
+                        this.state.step === 2 && this.state.enabled &&
+                        <GameStep2 onSubmit={this.nextStep.bind(this)}></GameStep2>
 
-                }
-                {
-                    this.state.step === 3 &&
-                    <GameStep3></GameStep3>
-
-                }
-                <Button style={styles.submitButton} onPress={(e) => this.setState({ step: !his.state.step + 1 })} title="Enable"></Button>
+                    }
+                    {
+                        this.state.step === 3 && this.state.enabled &&
+                        <GameStep3 onSubmit={this.disable.bind(this)}></GameStep3>
+                    }
+                </View>
             </View>
         );
     }
@@ -69,6 +83,12 @@ const styles = StyleSheet.create({
         width: 118,
         height: 56,
         marginTop: 166,
-        alignSelf: "center"
+        alignSelf: "flex-end",
+        bottom:0,
     },
+    gameStepContainer: {
+        alignSelf: "center",
+        margin:10,
+        paddingTop:50
+    }
 });
