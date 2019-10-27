@@ -14,10 +14,11 @@ const config = Platform.select({
 
 const MapStack = createStackNavigator({
         Home: {
-            screen:MapScreen,
+            screen: MapScreen,
             navigationOptions: {
                 header: null,
-            }},
+            }
+        },
     },
     config
 );
@@ -37,10 +38,11 @@ MapStack.navigationOptions = {
     }
 };
 
-MapStack.path = '';
+MapStack.path = 'MapStack';
 
 const GameStack = createStackNavigator({
-        Games: {screen:GameScreen,
+        Games: {
+            screen: GameScreen,
             navigationOptions: {
                 header: null,
             }

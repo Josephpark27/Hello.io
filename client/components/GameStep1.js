@@ -44,16 +44,36 @@ const styles = StyleSheet.create({
       fontSize:18, alignSelf: 'center', textAlignVertical: 'center', fontWeight: "100", color:'white'
     }
   });
-  
 
-export default function GameStep1(props) {
+
+export default class GameStep1 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      question:"",
+      answer:"",
+    }
+  }
+
+  q = (e) => { 
+    this.setState({ question: e.nativeEvent.text })
+    this.props.updateParent(this.state.question, this.state.answer)
+  }
+  a = (e) => { 
+    this.setState({ answer: e.nativeEvent.text })
+    this.props.updateParent(this.state.question, this.state.answer)
+  }
+
+
+  render() {
     return (
         <View style={styles.container}>
             <Text style={styles.text}>What is a fun fact about yourself?</Text>
-            <TextInput style={styles.textInput} numberOfLines={6} placeholder="Question"></TextInput>
-            <TextInput style={styles.textInput} placeholder="Answer"></TextInput>
-            <Button title="Submit" onPress={props.onSubmit.bind(this)}></Button>
+            <TextInput style={styles.textInput} onChange={this.q} numberOfLines={6} placeholder="Question"></TextInput>
+            <TextInput style={styles.textInput} onChange={this.a} placeholder="Answer"></TextInput>
+            <Button title="Submit" onPress={this.props.onSubmit.bind(this)}></Button>
         </View>
     )
+  }
 }
 

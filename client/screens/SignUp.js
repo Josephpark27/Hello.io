@@ -29,7 +29,7 @@ export default class SignUp extends Component {
     lat = 12
     lng = 12
     username = this.state.text
-    fetch("http://35.184.227.201/users/signup?lat="+lat+"&lng="+lng+"&username="+username,{
+    fetch("http://10.142.140.165/users/signup?lat="+lat+"&lng="+lng+"&username="+username,{
       method: "POST"
     }).then(x => {
       console.log(x);

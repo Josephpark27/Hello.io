@@ -6,10 +6,17 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import AppNavigator from './navigation/AppNavigator';
+import io from 'socket.io-client'
+import { YellowBox } from 'react-native'
+
+YellowBox.ignoreWarnings([
+  'Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?'
+])
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
-
+  
+  global.SOCKET = io("ws://10.142.140.165/")
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return (
       <AppLoading
