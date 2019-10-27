@@ -6,6 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import MapScreen from '../screens/MapScreen';
 import GameScreen from '../screens/GameScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import GameNavigator from '../navigation/GameNavigator';
 
 const config = Platform.select({
     web: { headerMode: 'none' },
@@ -14,10 +15,11 @@ const config = Platform.select({
 
 const MapStack = createStackNavigator({
         Home: {
-            screen:MapScreen,
+            screen: MapScreen,
             navigationOptions: {
                 header: null,
-            }},
+            }
+        },
     },
     config
 );
@@ -37,10 +39,11 @@ MapStack.navigationOptions = {
     }
 };
 
-MapStack.path = '';
+MapStack.path = 'MapStack';
 
 const GameStack = createStackNavigator({
-        Games: {screen:GameScreen,
+        Games: {
+            screen: GameNavigator,
             navigationOptions: {
                 header: null,
             }
