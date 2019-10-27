@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
   },
 });
 
+
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +41,8 @@ export default class HomeScreen extends Component {
         longitudeDelta: 0.0421,
       },
       errorMessage: null,
-      bosses: null,
+      bosses: [],
+      visible: [],
       currentBossIndex: 0,
       countdown: Date.now()
     };
@@ -55,16 +57,25 @@ export default class HomeScreen extends Component {
       this._getLocationAsync();
     }
 
-    /*
-    fetch("http://10.142.140.165/bosses/").then(data => {
+    fetch("http://10.142.140.165/bosses").then(res =>
+      res.json()
+    ).then(data => {
       this.setState({
         bosses: data,
         countdown: this.state.countdown + data[this.state.currentBossIndex].delay
       });
+      this.state.visible.push(this.state.bosses.pop());
+      var intervalID = setInterval(() => {
+        console.log(this.state)
+        this.state.visible.push(this.state.bosses.pop());
+        if (this.state.bosses.length === 0) {
+          window.clearInterval(intervalID);
+        }
+      }, 3000)
     }).catch(err => {
+      console.error(err);
       alert("Error")
     })
-    */
   }
 
 
@@ -78,7 +89,10 @@ export default class HomeScreen extends Component {
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    region = this.getRegionForCoordinates(location.coords)
+    points = this.state.bosses.map(x => {
+      return {latitide: x.location.coordinates[0], longitude: x.location.coordinates[1]}
+    })
+    region = this.getRegionForCoordinates([location.coords])
     this.setState({ location: region });
   };
 
@@ -90,26 +104,42 @@ export default class HomeScreen extends Component {
     this.props.navigation.navigate('SignUp');
   }
 
-  getRegionForCoordinates(point) {
-    minX = point.latitude;
-    maxX = point.latitude;
-    minY = point.longitude;
-    maxY = point.longitude;
-
+  getRegionForCoordinates(points) {
+    // points should be an array of { latitude: X, longitude: Y }
+    let minX, maxX, minY, maxY;
+  
+    // init first point
+    ((point) => {
+      minX = point.latitude;
+      maxX = point.latitude;
+      minY = point.longitude;
+      maxY = point.longitude;
+    })(points[0]);
+  
+    // calculate rect
+    points.map((point) => {
+      minX = Math.min(minX, point.latitude);
+      maxX = Math.max(maxX, point.latitude);
+      minY = Math.min(minY, point.longitude);
+      maxY = Math.max(maxY, point.longitude);
+    });
+  
     const midX = (minX + maxX) / 2;
     const midY = (minY + maxY) / 2;
+    const deltaX = (maxX - minX);
+    const deltaY = (maxY - minY);
 
     return {
       latitude: midX,
       longitude: midY,
-      latitudeDelta: 0.005,
-      longitudeDelta: 0.005
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01
     };
   }
+  
 
-  startGame() {
-    this.props.navigation.setParams({ enabled: true });
-    this.props.navigation.navigate("GameStack", { enabled: true })
+  startGame(name) {
+    this.props.navigation.navigate("GameStack", { enabled: true, 'bossName': name })
   }
 
   render() {
@@ -120,6 +150,14 @@ export default class HomeScreen extends Component {
           <Marker coordinate={this.state.location} onPress={this.startGame.bind(this)}>
             <Image source={require('../assets/images/spyIcon.png')} style={{ height: 35, width: 35 }} />
           </Marker>
+          {
+            this.state.visible.map(boss => {
+              return (
+                <Marker key={boss.name} coordinate={{latitude: boss.location.coordinates[0], longitude: boss.location.coordinates[1]}} onPress={this.startGame.bind(this, boss.name)}>
+                  <Image source={require('../assets/images/alien.png')} style={{ height: 35, width: 35 }} />
+                </Marker>)
+            })
+          }
         </MapView>
         <View>
           <Text>

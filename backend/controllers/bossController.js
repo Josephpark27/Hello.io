@@ -5,16 +5,16 @@ const Boss = require('../models/Boss');
 
 /* POST to create a new user */
 router.get('/', function(req, res, next) {
-  Boss.find({}, (err, docs) => {
-    if(err) next(err);
-    res.send(docs);
-  })
+    Boss.find({}, (err, docs) => {
+        if (err) next(err);
+        res.send(docs);
+    })
 });
 
 /* POST to create a new user */
 router.get('/near', function(req, res, next) {
     if (req.query.lat && req.query.lng) {
-        User.find({
+        Boss.find({
                 location: {
                     $geoWithin: {
                         $center: [

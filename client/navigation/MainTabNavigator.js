@@ -6,7 +6,6 @@ import TabBarIcon from '../components/TabBarIcon';
 import MapScreen from '../screens/MapScreen';
 import GameScreen from '../screens/GameScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import GameNavigator from '../navigation/GameNavigator';
 
 const config = Platform.select({
     web: { headerMode: 'none' },
@@ -43,7 +42,7 @@ MapStack.path = 'MapStack';
 
 const GameStack = createStackNavigator({
         Games: {
-            screen: GameNavigator,
+            screen: GameScreen,
             navigationOptions: {
                 header: null,
             }

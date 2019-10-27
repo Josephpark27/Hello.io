@@ -11,7 +11,7 @@ import {
 import GameStep1 from '../components/GameStep1';
 import GameStep2 from '../components/GameStep2';
 import GameStep3 from '../components/GameStep3';
-import WaitingScreen from '../components/WaitingScreen';
+import WaitingStep from '../components/WaitingStep';
 
 export default class GameScreen extends Component {
     constructor(props) {
@@ -23,6 +23,8 @@ export default class GameScreen extends Component {
             question: "",
             answer: "",
         }
+
+        console.log(props.navigation.getParam("bossName", ""))
 
         global.SOCKET.on('connection', () => {
             global.SOCKET.send("Hello World");
@@ -76,7 +78,7 @@ export default class GameScreen extends Component {
                     }
                     {
                         this.state.step === 1 && this.state.enabled && this.state.ready &&
-                        <WaitingScreen onSubmit={this.nextStep.bind(this)}></WaitingScreen>
+                        <WaitingStep onSubmit={this.nextStep.bind(this)}></WaitingStep>
                     }
                     {
                         this.state.step === 2 && this.state.enabled &&
