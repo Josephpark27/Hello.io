@@ -1,17 +1,20 @@
+const game = require('../controllers/game');
+const gameSession = require('../controllers/gameSessions');
 
-let clients = {};
-let questions = {}
+// let clients = {};
+// let questions = {}
 // let io = null;
 
-const isSimilar = (ans1, ans2) => {
-  return ans1 == ans2;
+module.exports.subscribeToChannel = (channel) => {
+  
+}
+
+module.exports.subscribeToRoom(channel) {
+  
 }
 
 // We import io_instance so we can have multiple channels each for a different boss
-module.exports = function(io_instance, socket) {
-  (function() {
-    // io = io_instance; // Encapsulation
-    socket.emit('test', { hello: 'world' });
+module.exports = (io) => io.sockets.on('connection', (socket) => {    
 
     socket.on('answer', (data) => {
       const { username, answer, targetUser } = data;
@@ -33,7 +36,6 @@ module.exports = function(io_instance, socket) {
       socket.join(username); // Joins that user's room.
       clients[username] = false;
       questions[username] = [question, answer];
-    })
-  })();
-};
+    });
+});
 

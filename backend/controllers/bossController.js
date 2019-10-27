@@ -4,7 +4,7 @@ const router = express.Router();
 const Boss = require('../models/Boss');
 
 /* POST to create a new user */
-router.get('/bosses', function(req, res, next) {
+router.get('/', function(req, res, next) {
   Boss.find({}, (err, docs) => {
     if(err) next(err);
     res.send(docs);
