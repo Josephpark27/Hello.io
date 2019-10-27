@@ -52,7 +52,7 @@ export default class GameScreen extends Component {
         }
     }
 
-    updateQuestionAnswer(q,a) {
+    updateQuestionAnswer(q, a) {
         this.setState({
             question: q,
             answer: a,
@@ -70,8 +70,11 @@ export default class GameScreen extends Component {
             <LinearGradient
                 colors={['#B24592', '#F15F79']}
                 style={styles.container}>
+
+                <View style={{ marginLeft:25, marginTop:75, width: 50, height: 50 }}>
+                    <Button title="X" onPress={this.props.navigation.navigate.bind(this, 'MapStack')} style={{ position: 'absolute', top: 25, width: 50, height: 50, left: 25 }}></Button>
+                </View>
                 <View style={styles.gameStepContainer}>
-                    <Button title="X" onPress={this.props.navigation.navigate.bind(this, 'MapStack')} style={{marginTop:25, width:50, flex: 0, height: 50}}></Button>
                     {
                         this.state.step === 1 && this.state.enabled && !this.state.ready &&
                         <GameStep1 updateParent={this.updateQuestionAnswer.bind(this)} onSubmit={this.nextStep.bind(this)}></GameStep1>

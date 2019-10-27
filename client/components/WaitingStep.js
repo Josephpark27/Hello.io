@@ -13,14 +13,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignContent: 'center'
   },
   background: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
+    alignContent: 'center',
     flex: 1,
-    justifyContent: 'center'
   },
   text: {
     color: "#121212",
@@ -29,13 +28,15 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     paddingTop: 40
   },
-  waitingContainer: {
-    flex: 1,
-    justifyContent: 'center'
+  subText: {
+    color: "#121212",
+    fontSize: 18,
+    fontFamily: "roboto-regular",
+    alignSelf: "center",
+    paddingTop: 20
   },
   horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: 'column',
     padding: 10
   }
 });
@@ -66,7 +67,8 @@ export default class WaitingScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Waiting for other other players</Text>
+        <Text style={styles.text}>Waiting for other players!</Text>
+        <Text style={styles.subText}>Currently Here:</Text>
         <View style={[styles.waitingContainer, styles.horizontal]}>
           {
             this.state.clients.length === 0 &&
@@ -75,7 +77,7 @@ export default class WaitingScreen extends React.Component {
           {
             this.state.clients.map(client => {
               return(
-                <Text key={client}>{client}</Text>
+                <View style={{height:50, alignContent:'center'}} key={client}><Text style={{textAlign:'center', color:'white'}}>{client}, Rank 1.</Text></View>
               )
             })
           }
