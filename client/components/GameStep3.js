@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 export default function GameStep3(props) {
     return (
         <View>
-          <Text>asdfasfasdfsafasfdsafd</Text>
+          <Text>{props.result}</Text>
         </View>
     )
 }

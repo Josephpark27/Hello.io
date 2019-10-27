@@ -5,6 +5,7 @@ import {
   Dimensions,
   TextInput,
   StyleSheet,
+  Text
 } from 'react-native'
 
 const styles = StyleSheet.create({
@@ -48,12 +49,22 @@ const styles = StyleSheet.create({
 export default class GameStep2 extends React.Component {
   constructor(props){
     super(props);
+    this.state = {
+      guess: ""
+    }
   }
+
+  makeGuess() {
+    console.log("guess made")
+    this.props.makeGuess(this.state.guess);
+  }
+
   render() {
     return (
       <View>
-        <TextInput style={styles.textInput} placeholder="Answer"></TextInput>
-        <Button title="Submit" onPress={this.props.onSubmit.bind(this)}></Button>
+        <Text>{this.props.question}</Text>
+        <TextInput value={this.state.guess} onChangeText={(guess) => this.setState({ guess: guess })} style={styles.textInput} placeholder="Answer"></TextInput>
+        <Button title="Submit" onPress={this.makeGuess.bind(this)}></Button>
       </View>
     )
   }
