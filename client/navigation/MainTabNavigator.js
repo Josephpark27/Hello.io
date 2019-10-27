@@ -72,10 +72,10 @@ const ChatBotStack = createStackNavigator({
 );
 
 ChatBotStack.navigationOptions = {
-    tabBarLabel: 'Profile',
+    tabBarLabel: 'ChatBot',
     tabBarIcon: ({ focused }) => ( <
         TabBarIcon focused = { focused }
-        name = { Platform.OS === 'ios' ? 'ios-options' : 'md-options' }
+        name = { Platform.OS === 'ios' ? 'ios-chatboxes' : 'md-chatboxes' }
         />
     ),
 };
