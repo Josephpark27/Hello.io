@@ -1,6 +1,5 @@
-
 const gameSessions = require('../controllers/gameSessions');
-const { subscribeToChannel } = require('../routes/websocket');
+const websocket = require('../routes/websocket');
 let time = Date.now(), currentBoss;
 
 (async function startGame() {

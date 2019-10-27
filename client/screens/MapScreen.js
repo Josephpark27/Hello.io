@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { LinearGradient } from 'expo'
 import {
   Image,
   Platform,
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MapScreen extends Component {
+export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,18 +54,17 @@ export default class MapScreen extends Component {
     } else {
       this._getLocationAsync();
     }
-    fetch("http://localhost:3000/bosses/", {
-      method: "POST"
-    }).then(data => {
-      console.log(data);
+
+    /*
+    fetch("http://10.142.140.165/bosses/").then(data => {
       this.setState({
         bosses: data,
         countdown: this.state.countdown + data[this.state.currentBossIndex].delay
       });
     }).catch(err => {
       alert("Error")
-      console.log(err);
     })
+    */
   }
 
 
@@ -114,19 +114,19 @@ export default class MapScreen extends Component {
 
   render() {
     return (
-    <View style={styles.container}>
-      <MapView style={styles.mapStyle}
-        region={this.state.location}>
-        <Marker coordinate={this.state.location} onPress={this.startGame.bind(this)}>
-          <Image source={require('../assets/images/spyIcon.png')} style={{ height: 35, width: 35 }} />
-        </Marker>
-      </MapView>
-      <View>
-        <Text>
-          {this.state.countdown}
-        </Text>
+      <View style={styles.container}>
+        <MapView style={styles.mapStyle}
+          region={this.state.location}>
+          <Marker coordinate={this.state.location} onPress={this.startGame.bind(this)}>
+            <Image source={require('../assets/images/spyIcon.png')} style={{ height: 35, width: 35 }} />
+          </Marker>
+        </MapView>
+        <View>
+          <Text>
+            {this.state.countdown}
+          </Text>
+        </View>
       </View>
-    </View>
     );
   }
 }

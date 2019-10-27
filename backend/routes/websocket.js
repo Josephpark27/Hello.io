@@ -2,10 +2,6 @@ const game = require('../controllers/game');
 const gameSession = require('../controllers/gameSessions');
 const User = require('../models/User');
 
-// let clients = {};
-// let questions = {}
-// let io = null;
-
 // We import io_instance so we can have multiple channels each for a different boss
 module.exports = (function() {
   let io, time;

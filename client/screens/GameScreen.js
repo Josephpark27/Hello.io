@@ -19,23 +19,42 @@ export default class GameScreen extends Component {
         this.state = {
             enabled: true,
             step: 1,
-            ready: false
+            ready: false,
+            question: "",
+            answer: "",
         }
+
+        global.SOCKET.on('connection', () => {
+            global.SOCKET.send("Hello World");
+        });
+
+        global.SOCKET.on('event', (data) => {
+
+        });
+
+
     }
 
     nextStep() {
+        if (this.state.step === 1) {
+            global.SOCKET.emit('party', { username: global.USER, question: this.state.question, answer: this.state.answer })
+        }
         if (!this.state.ready) {
             this.setState({
                 ready: true,
             })
         } else {
-            console.log("aaaaaa")
             this.setState({
                 step: this.state.step + 1,
             })
         }
-        console.log(this.state.ready)
-        console.log(this.state.step)
+    }
+
+    updateQuestionAnswer(q,a) {
+        this.setState({
+            question: q,
+            answer: a,
+        })
     }
 
     disable() {
@@ -47,12 +66,13 @@ export default class GameScreen extends Component {
     render() {
         return (
             <LinearGradient
-            colors={['#B24592', '#F15F79']}
-            style={styles.container}>
+                colors={['#B24592', '#F15F79']}
+                style={styles.container}>
                 <View style={styles.gameStepContainer}>
+                    <Button title="X" onPress={this.props.navigation.navigate.bind(this, 'MapStack')} style={{marginTop:25, width:50, flex: 0, height: 50}}></Button>
                     {
                         this.state.step === 1 && this.state.enabled && !this.state.ready &&
-                        <GameStep1 onSubmit={this.nextStep.bind(this)}></GameStep1>
+                        <GameStep1 updateParent={this.updateQuestionAnswer.bind(this)} onSubmit={this.nextStep.bind(this)}></GameStep1>
                     }
                     {
                         this.state.step === 1 && this.state.enabled && this.state.ready &&
@@ -101,11 +121,14 @@ const styles = StyleSheet.create({
         height: 56,
         marginTop: 166,
         alignSelf: "flex-end",
-        bottom:0,
+        bottom: 0,
     },
     gameStepContainer: {
         alignSelf: "center",
-        margin:10,
-        paddingTop:50
+        margin: 10,
+        paddingTop: 50,
+        flex: 1,
+        display: 'flex',
+        flexDirection: "row"
     }
 });

@@ -27,13 +27,16 @@ router.get('/', function(req, res, next) {
 
 /* Login users listing. */
 router.post('/login', function(req, res, next) {
+    console.log(req.query.username);
     User.findOne({ username: req.query.username }).then(succ => {
-        res.send(succ);
+        if (succ)
+            res.send(succ);
+        else
+            res.sendStatus(500);
     }).catch(err => {
         console.log(err);
-        res.send('Error user: ' + req.query.username + ' could not be found.');
+        res.sendStatus(500);
     });
-
 });
 
 /* POST to create a new user */
