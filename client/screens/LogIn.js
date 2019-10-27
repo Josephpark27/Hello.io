@@ -22,7 +22,7 @@ export default class LogIn extends Component {
   }
 
   logIn() {
-    username = this.state.text
+    username = this.state.text;
     fetch("http://35.184.227.201/users/login?username=" + username, {
       method: "POST"
     }).then(x => {
@@ -56,7 +56,7 @@ export default class LogIn extends Component {
             />
           </View>
         </KeyboardAvoidingView>
-      </LinearGradient >
+      </LinearGradient>
     );
   }
 }
