@@ -31,6 +31,9 @@ MapStack.navigationOptions = {
       }
     />
   ),
+  params: {
+    test:"Hello World"
+  }
 };
 
 MapStack.path = '';
@@ -47,6 +50,9 @@ GameStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
   ),
+  params: {
+    test:"Hello World"
+  }
 };
 
 GameStack.path = '';

@@ -7,12 +7,15 @@ import {
     TextInput,
     Dimensions,
 } from 'react-native';
+import GameStep1 from '../components/GameStep1';
 
 export default class GameScreen extends Component {
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
-            enabled: false
+            enabled: false,
+            step: 1
         }
     }
 
@@ -20,12 +23,20 @@ export default class GameScreen extends Component {
         return (
             <View style={styles.container}>
                 {
-                    this.state.enabled &&
-                    <View>
-                        <TextInput style={styles.textBox}></TextInput>
-                    </View>
+                    this.state.step === 1 &&
+                    <GameStep1></GameStep1>
                 }
-                <Button style={styles.submitButton} onPress={(e) => this.setState({ enabled: !this.state.enabled })} title="Enable"></Button>
+                {
+                    this.state.step === 2 &&
+                    <GameStep2></GameStep2>
+
+                }
+                {
+                    this.state.step === 3 &&
+                    <GameStep3></GameStep3>
+
+                }
+                <Button style={styles.submitButton} onPress={(e) => this.setState({ step: !his.state.step + 1 })} title="Enable"></Button>
             </View>
         );
     }
