@@ -10,9 +10,8 @@ var indexRouter = require('./routes/index');
 var userController = require('./controllers/userController');
 var bossController = require('./controllers/bossController');
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// Begins monster timer
+require('./utils/timing');
 
 app.use(logger('dev'));
 app.use(express.json());

@@ -61,7 +61,7 @@ const names = [
 ]
 
 // Time delay
-const expoFunc = (i) => Math.floor((0.1*Math.pow(3,i)-0.1)*60000);
+const expoFunc = (i) => Math.floor((0.4*Math.pow(2,i)-1.4)*60000);
 
 (async function() {
   // Indices to be shuffled
