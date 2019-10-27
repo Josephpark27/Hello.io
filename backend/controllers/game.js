@@ -62,10 +62,10 @@ class Game {
 
     submitAnswer(username, answer) {
         let { clients, questions, pairs, hasStarted } = this.state;
+        if (!hasStarted) return console.error("Game hasn't started!");
 
-        if (!hasStarted) return false; // Check we have pairs already
         let pairInd = pairs.indexOf(username);
-        if (pairInd < 0) return false; // Check if pair exists in Array
+        if (pairInd < 0) return console.error("Couldn't find user:" + username + " in pairs list"); // Check if pair exists in Array
         let pair = pairs[(pairInd + 1) % pairs.length]
         if (!this.similar(answer, questions[pair][1])) return false;
         else {
