@@ -30,7 +30,7 @@
             "package": "com.calhacks.localgame",
             "config": {
                 "googleMaps": {
-                    "apiKey": ""
+                    "apiKey": "AIzaSyAoO52ULHavIwyDSlddBmezkVMnNUBV62Y"
                 }
             }
         }

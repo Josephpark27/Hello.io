@@ -39,5 +39,11 @@
     "assets": [
       "./assets/fonts/roboto-regular.ttf"
     ]
-  }
+  },
+  "name": "client",
+  "version": "1.0.0",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
