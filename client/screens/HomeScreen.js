@@ -19,6 +19,7 @@ export default class HomeScreen extends Component {
   signUp() {
     this.props.navigation.navigate('SignUp');
   }
+  
 
   render() {
     return (

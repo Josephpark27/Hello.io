@@ -5,7 +5,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon';
 import MapScreen from '../screens/MapScreen';
 import GameScreen from '../screens/GameScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import ChatBot from '../screens/ChatBot';
 
 const config = Platform.select({
     web: { headerMode: 'none' },
@@ -63,13 +63,13 @@ GameStack.navigationOptions = {
 
 GameStack.path = '';
 
-const SettingsStack = createStackNavigator({
-        Settings: SettingsScreen,
+const ChatBotStack = createStackNavigator({
+        Bot: ChatBot,
     },
     config
 );
 
-SettingsStack.navigationOptions = {
+ChatBotStack.navigationOptions = {
     tabBarLabel: 'Profile',
     tabBarIcon: ({ focused }) => ( <
         TabBarIcon focused = { focused }
@@ -78,12 +78,12 @@ SettingsStack.navigationOptions = {
     ),
 };
 
-SettingsStack.path = '';
+ChatBotStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
     MapStack,
     GameStack,
-    SettingsStack,
+    ChatBotStack,
 });
 
 tabNavigator.path = '';
