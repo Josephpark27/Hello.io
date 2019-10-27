@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
 import {
     StyleSheet,
     Text,
@@ -10,20 +11,31 @@ import {
 import GameStep1 from '../components/GameStep1';
 import GameStep2 from '../components/GameStep2';
 import GameStep3 from '../components/GameStep3';
+import WaitingScreen from '../components/WaitingScreen';
 
 export default class GameScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
             enabled: true,
-            step: 1
+            step: 1,
+            ready: false
         }
     }
 
     nextStep() {
-        this.setState({
-            step: this.state.step + 1
-        })
+        if (!this.state.ready) {
+            this.setState({
+                ready: true,
+            })
+        } else {
+            console.log("aaaaaa")
+            this.setState({
+                step: this.state.step + 1,
+            })
+        }
+        console.log(this.state.ready)
+        console.log(this.state.step)
     }
 
     disable() {
@@ -34,11 +46,17 @@ export default class GameScreen extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <LinearGradient
+            colors={['#B24592', '#F15F79']}
+            style={styles.container}>
                 <View style={styles.gameStepContainer}>
                     {
-                        this.state.step === 1 && this.state.enabled &&
+                        this.state.step === 1 && this.state.enabled && !this.state.ready &&
                         <GameStep1 onSubmit={this.nextStep.bind(this)}></GameStep1>
+                    }
+                    {
+                        this.state.step === 1 && this.state.enabled && this.state.ready &&
+                        <WaitingScreen onSubmit={this.nextStep.bind(this)}></WaitingScreen>
                     }
                     {
                         this.state.step === 2 && this.state.enabled &&
@@ -50,7 +68,7 @@ export default class GameScreen extends Component {
                         <GameStep3 onSubmit={this.disable.bind(this)}></GameStep3>
                     }
                 </View>
-            </View>
+            </LinearGradient>
         );
     }
 }

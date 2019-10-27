@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { LinearGradient } from 'expo'
 import {
   Image,
   Platform,
@@ -29,7 +28,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class HomeScreen extends Component {
+export default class MapScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
