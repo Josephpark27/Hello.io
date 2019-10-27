@@ -8,7 +8,8 @@ describe('game class', () => {
     expect(game.getState()).toEqual({
       clients: {'wer2213': 0, 'bianca': 0, 'jim': 0},
       questions: {'wer2213': ['age?',21],'bianca': ['food?','taco'],'jim': ['sport?','baske']},
-      pairs: null});
+      pairs: null,
+      hasStarted: false});
   });
 
   test('reset game', () => {
@@ -16,7 +17,8 @@ describe('game class', () => {
     expect(game.getState()).toEqual({
       clients: {},
       questions: {},
-      pairs: null});
+      pairs: null,
+      hasStarted: false});
   });
 
   test('removing clients', () => {
@@ -24,14 +26,15 @@ describe('game class', () => {
     expect(game.getState()).toEqual({
       clients: {},
       questions: {},
-      pairs: null});
+      pairs: null,
+      hasStarted: false});
   });
 
   test('starting game', () => {
     game.addClient({username:'wer2213', question: 'age?', answer: 'taco'});
     game.addClient({username:'bianca', question: 'food?', answer: 'taco'});
     game.start();
-    expect(game.getState().pairs).not.toBe(null);
+    expect(game.getState().hasStarted).toBe(true);
   });
 
   test('submitting game', () => {

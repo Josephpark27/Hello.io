@@ -1,14 +1,11 @@
 const express = require('express');
 const router = express.Router();
+// const Boss = require('../models/Boss');
+const gameSessions = require('../controllers/gameSessions');
 
-const Boss = require('../models/Boss');
-
-/* POST to create a new user */
-router.get('/', function(req, res, next) {
-  Boss.find({}, (err, docs) => {
-    if(err) next(err);
-    res.send(docs);
-  })
+router.get('/', async function(req, res, next) {
+    let output = (await gameSessions).oldBosses();
+    res.json(output);
 });
 
 /* POST to create a new user */

@@ -35,7 +35,7 @@ module.exports = (function() {
    * @param {Socket} nsp
    */
   function startGame(nsp) {
-    if(game.getState().hasStarted) return console.log("Tried to start a running game");
+    game.start();
     
     let names = Object.keys(playerSockets); // Generate game pairs
     names.forEach(name => {
@@ -71,7 +71,7 @@ module.exports = (function() {
     try {
       let socket = playerSockets[data.username];
       // Check result of answer
-      let result = game.submit(data);
+      let result = game.submit(data.username, data.answer);
       socket.emit('answer', {result});
     } catch(err) {
       console.error(err);
@@ -85,18 +85,18 @@ module.exports = (function() {
   async function endGame() {
     try {
       let results = game.end();
-      let names = Object.values(results);
-      names.forEach(async name => {
+
+      Object.keys(results).forEach(async name => {
         let userDoc = await User.findOne({username: name}),
             socket = playerSockets[name];
         if(userDoc){
-          let rank = await userDoc.rank + results[name];
+          let rank =  userDoc.rank + results[name];
           userDoc.rank = rank;
           userDoc.save();
           socket.emit('answer', {rank});
         }
       });
-    } catch(error) {
+    } catch(err) {
       console.error(err);
     }
 
