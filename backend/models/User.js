@@ -8,7 +8,7 @@ var Schema = mongoose.Schema;
 
 var newSchema = new Schema({
     'username': { type: String, require: true, unique: true },
-    'rank': { type: Number, require: true, default: 0 },
+    'rank': { type: Number, default: 0 },
     // 'role': { type: String, default: 'basic', enum:['basic', 'admin']},
     'accessToken': { type: String },
     'location': {

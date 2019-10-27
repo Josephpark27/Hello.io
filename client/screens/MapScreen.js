@@ -64,14 +64,6 @@ export default class HomeScreen extends Component {
         bosses: data,
         countdown: this.state.countdown + data[this.state.currentBossIndex].delay
       });
-      this.state.visible.push(this.state.bosses.pop());
-      var intervalID = setInterval(() => {
-        console.log(this.state)
-        this.state.visible.push(this.state.bosses.pop());
-        if (this.state.bosses.length === 0) {
-          window.clearInterval(intervalID);
-        }
-      }, 3000)
     }).catch(err => {
       console.error(err);
       alert("Error")
@@ -139,7 +131,9 @@ export default class HomeScreen extends Component {
   
 
   startGame(name) {
-    this.props.navigation.navigate("GameStack", { enabled: true, 'bossName': name })
+    console.log(name);
+    global.BOSS = name
+    this.props.navigation.navigate("GameStack", { enabled: true})
   }
 
   render() {
@@ -151,7 +145,7 @@ export default class HomeScreen extends Component {
             <Image source={require('../assets/images/spyIcon.png')} style={{ height: 35, width: 35 }} />
           </Marker>
           {
-            this.state.visible.map(boss => {
+            this.state.bosses.map(boss => {
               return (
                 <Marker key={boss.name} coordinate={{latitude: boss.location.coordinates[0], longitude: boss.location.coordinates[1]}} onPress={this.startGame.bind(this, boss.name)}>
                   <Image source={require('../assets/images/alien.png')} style={{ height: 35, width: 35 }} />

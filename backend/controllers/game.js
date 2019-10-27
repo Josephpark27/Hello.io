@@ -11,6 +11,7 @@ class Game {
             clients: {},
             questions: {},
             pairs: null,
+            hasStarted: false
         };
     }
 
@@ -20,21 +21,22 @@ class Game {
             clients: {},
             questions: {},
             pairs: null,
+            hasStarted: false
         };
         return score;
     }
 
     addClient(data) {
-        if (this.state.pairs) return false;
+        if (this.state.hasStarted) return false;
         const { username, question, answer } = data;
         this.state.clients[username] = 0;
         this.state.questions[username] = [question, answer];
     }
 
     removeClient(username) {
-        let { clients, questions, pairs } = this.state;
+        let { clients, questions, hasStarted } = this.state;
 
-        if (pairs) return false;
+        if (hasStarted) return false;
         return delete clients[username] &&
             delete questions[username];
     }
@@ -50,6 +52,7 @@ class Game {
             names[j] = temp;
         }
         this.state.pairs = names;
+        this.state.hasStarted = true;
         return names;
     }
 
@@ -58,11 +61,11 @@ class Game {
     }
 
     submitAnswer(username, answer) {
-        let { clients, questions, pairs } = this.state;
+        let { clients, questions, pairs, hasStarted } = this.state;
+        if (!hasStarted) return console.error("Game hasn't started!");
 
-        if (!pairs) return false; // Check we have pairs already
         let pairInd = pairs.indexOf(username);
-        if (pairInd < 0) return false; // Check if pair exists in Array
+        if (pairInd < 0) return console.error("Couldn't find user:" + username + " in pairs list"); // Check if pair exists in Array
         let pair = pairs[(pairInd + 1) % pairs.length]
         if (!this.similar(answer, questions[pair][1])) return false;
         else {
@@ -81,6 +84,6 @@ module.exports = (function() {
         removeClient: (username) => game.removeClient(username),
         start: () => game.match(),
         submit: (username, answer) => game.submitAnswer(username, answer),
-        end: () => game.reset()
+        end: () => game.reset(),
     }
 })()
